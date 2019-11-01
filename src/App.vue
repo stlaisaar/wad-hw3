@@ -5,81 +5,17 @@
         </header>
         <section id="container">
             <section id="main">
+
                 <div class="content">
-                    <div id="profile-container" class="tab active">
-                        <div id="profile">
-                            <div class="avatar">
-                                <img src="./assets/me.png" id="picture" alt="My picture">
-                            </div>
-                            <div class="info">
-                                <ul>
-                                    <li id="name">John Doe</li>
-                                    <li id="birthdate">11/10/1990</li>
-                                    <li id="faculty">Software Engineering</li>
-                                </ul>
-                            </div>
-                            <div id="gpa">
-                                <strong>2.75</strong>
-                            </div>
-                            <div class="clear-fix"></div>
-                        </div>
-                    </div>
-                    <div id="courses-container" class="tab">
-                        <h1 class="title">Courses</h1>
-                        <table id="courses">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Title</th>
-                                <th>Semester</th>
-                                <th>Grade</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Agile software development</td>
-                                <td>1</td>
-                                <td>82</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>System modeling</td>
-                                <td>1</td>
-                                <td>85</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Object-oriented programming</td>
-                                <td>2</td>
-                                <td>99</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Estonian language Level A2</td>
-                                <td>2</td>
-                                <td>65</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <br>
-                        <div>
-                            <button id="add-course-button" class="blue-button">+</button>
-                            <span id="add-course">
-                                <input class="input" type="text" placeholder="Course title" id="title">
-                                <input class="input" type="number" min="1" max="8" placeholder="Semester" id="semester">
-                                <input class="input" type="number" min="0" max="100" placeholder="Grade" id="grade">
-                                <button class="green-button" id="save-course">Save</button>
-                                <button class="grey-button" id="cancel-course">Cancel</button>
-                            </span>
-                        </div>
-                    </div>
+                    <Profile :user="user" :profileSelected="profileSelected"/>
+                    <Courses :courses="courses" :coursesSelected="coursesSelected"/>
                 </div>
+
                 <div class="controls">
-                    <button id="profile-button" class="pill active">Profile</button>
-                    <button id="courses-button" class="pill">Courses</button>
+                    <button id="profile-button" :class="{'pill active' : profileSelected, 'pill' : !profileSelected}" @click="swapViews('profile-button', profileSelected)">Profile</button>
+                    <button id="courses-button" :class="{'pill active' : coursesSelected, 'pill' : !coursesSelected}" @click="swapViews('courses-button', coursesSelected)">Courses</button>
                 </div>
+
             </section>
         </section>
         <footer>
@@ -95,11 +31,58 @@
     </main>
 </template>
 
+/* Maybe create components for footer and header as well */
+
 <script>
+
+    import Courses from "./components/Courses";
+    import Profile from "./components/Profile";
+    import User from "./models/User";
+    import Course from "./models/Course";
 
     export default {
         name: 'app',
-        components: {}
+
+        data: () => {
+            let user = new User(
+                "Jane",
+                "Boe",
+                "13/12/1911",
+                "Software Development",
+                "3.0"
+            );
+            return {
+                user,
+                courses: [
+                    new Course("Programming", 1, 95),
+                    new Course("OOP", 2, 83),
+                    new Course("Databases", 2, 89),
+                    new Course("Discrete mathematics", 3, 61)
+                ],
+                profileSelected: true,
+                coursesSelected: false
+            }
+        },
+        methods: {
+            swapViews: function (id, buttonAlreadySelected) {
+                /* eslint-disable no-console */
+                console.log(id);
+                // Courses button was pressed, Courses component currently not being shown, show Courses component
+                if (id === "courses-button" && buttonAlreadySelected === false) {
+                    this.profileSelected = false;
+                    this.coursesSelected = true;
+                }
+                // Profile button was pressed, Profile component currently not being shown, show Profile component
+                else if (id === "profile-button" && buttonAlreadySelected === false) {
+                    this.coursesSelected = false;
+                    this.profileSelected = true;
+                }
+            }
+        },
+        components: {
+            Profile,
+            Courses
+        }
     }
 </script>
 
@@ -173,70 +156,8 @@
         margin: 0 auto;
     }
 
-    #profile {
-        border-bottom: 1px dashed #a7a7a7;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-    }
-
-    #profile div:not(.clear-fix) {
-        height: 190px;
-        float: left;
-        position: relative;
-    }
-
-    #profile .avatar {
-        width: 35%;
-        text-align: center;
-    }
-
-    #profile .avatar img {
-        width: 180px;
-    }
-
-    #profile .info {
-        width: 45%;
-    }
-
-    #profile #gpa {
-        width: 20%;
-    }
-
-    #profile #gpa strong {
-        position: absolute;
-        width: 100%;
-        height: 60px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto auto;
-        font-size: 60px;
-        line-height: 60px;
-        text-align: center;
-    }
-
     .content {
         padding: 10px;
-        border: 1px solid #cbcbcb;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-    }
-
-    table th {
-        padding: 8px 12px;
-        text-align: left;
-        border: 1px solid #cbcbcb;
-        background-color: #03A9F4;
-        color: #ffffff;
-    }
-
-    table td {
-        padding: 8px 12px;
         border: 1px solid #cbcbcb;
     }
 
@@ -268,34 +189,4 @@
         cursor: pointer;
     }
 
-    .blue-button {
-        background-color: #2196F3;
-        color: #ffffff;
-        border: none;
-        padding: 10px 20px;
-    }
-
-    .green-button {
-        background-color: #69f378;
-        color: #ffffff;
-        border: none;
-        padding: 10px 10px;
-    }
-
-    .grey-button {
-        background-color: #e1e8e6;
-        color: #ffffff;
-        border: none;
-        padding: 10px 20px;
-    }
-
-    .input {
-        border: 1px solid #cccccc;
-        padding: 10px 20px;
-        min-width: 135px;
-    }
-
-    #add-course {
-        display: none;
-    }
 </style>
