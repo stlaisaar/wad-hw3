@@ -27,9 +27,9 @@
                     @click="selected = createFields(addButtonSelected)">+
             </button>
             <span id="add-course" :class="{'add-course-not-visible' : !addButtonSelected, 'add-course-visible' : addButtonSelected}">
-                <input class="input" type="text" placeholder="Course title" id="title">
-                <input class="input" type="number" min="1" max="8" placeholder="Semester" id="semester">
-                <input class="input" type="number" min="0" max="100" placeholder="Grade" id="grade">
+                <input class="input" type="text" placeholder="Course title" id="title" v-model='inputField'>
+                <input class="input" type="number" min="1" max="8" placeholder="Semester" id="semester" v-model='inputField'>
+                <input class="input" type="number" min="0" max="100" placeholder="Grade" id="grade" v-model='inputField'>
                 <button class="green-button" id="save-course">Save</button>
                 <button class="grey-button" id="cancel-course" @click="selected=cancel()">Cancel</button>
             </span>
@@ -61,6 +61,7 @@
                 this.addButtonSelected = !buttonSelected;
             },
             cancel: function () {
+                this.inputField = '';
                 this.addButtonSelected = false;
             }
         },
