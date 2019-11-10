@@ -70,7 +70,7 @@
             calculateGPA: function () {
                 var sum = 0;
                 this.courses.forEach(e => {
-                    if(e.grade>=90&&e.grade<100){
+                    if(e.grade>=90){
                         sum+=4
                     }
                     else if(e.grade>=80&&e.grade<90){
