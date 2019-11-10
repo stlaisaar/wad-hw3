@@ -24,7 +24,7 @@
         <br>
         <div>
             <button id="add-course-button"
-                    :class="{'blue-button' : !addButtonSelected, 'grey-button' : addButtonSelected}"
+                    class="blue-button"
                     @click="selected = createFields(addButtonSelected)">+
             </button>
             <span id="add-course" :class="{'add-course-not-visible' : !addButtonSelected, 'add-course-visible' : addButtonSelected}">
