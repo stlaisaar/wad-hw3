@@ -11,7 +11,7 @@
                     <li id="faculty">{{user.faculty}}</li>
                 </ul>
             </div>
-            <div id="gpa">
+            <div id=gpa>
                 <strong>{{user.gpa}}</strong>
             </div>
             <div class="clear-fix"></div>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+    
     import User from "../models/User";
 
     export default {
@@ -27,11 +28,11 @@
 
         data: () => {
             return {
-
+               
             }
         },
         methods: {
-
+            
         },
         props: {
             user: User,

@@ -8,6 +8,7 @@
                 <th>Course Title</th>
                 <th>Semester</th>
                 <th>Grade</th>
+
             </tr>
             </thead>
             <tbody>
@@ -27,10 +28,10 @@
                     @click="selected = createFields(addButtonSelected)">+
             </button>
             <span id="add-course" :class="{'add-course-not-visible' : !addButtonSelected, 'add-course-visible' : addButtonSelected}">
-                <input class="input" type="text" placeholder="Course title" id="title" v-model='inputField'>
-                <input class="input" type="number" min="1" max="8" placeholder="Semester" id="semester" v-model='inputField'>
-                <input class="input" type="number" min="0" max="100" placeholder="Grade" id="grade" v-model='inputField'>
-                <button class="green-button" id="save-course">Save</button>
+                <input class="input" type="text" placeholder="Course title" id="title" v-model='inputTitle'>
+                <input class="input" type="number" min="1" max="8" placeholder="Semester" id="semester" v-model='inputSemester'>
+                <input class="input" type="number" min="0" max="100" placeholder="Grade" id="grade" v-model='inputGrade'>
+                <button class="green-button" id="save-course" @click="selected=addCourse()">Save</button>
                 <button class="grey-button" id="cancel-course" @click="selected=cancel()">Cancel</button>
             </span>
         </div>
@@ -45,23 +46,52 @@
 
         data: () => {
             return {
-                addButtonSelected: false
+                addButtonSelected: false,
+                inputTitle: "",
+                inputSemester: "",
+                inputGrade: "",
             }
         },
         methods: {
-            // Probably useful?
+            
             calculateGPA: function () {
-
+                var sum = 0;
+                this.courses.forEach(e => {
+                    if(e.grade>=90&&e.grade<100){
+                        sum+=4
+                    }
+                    else if(e.grade>=80&&e.grade<90){
+                        sum+=3
+                    }
+                    else if(e.grade>=70&&e.grade<80){
+                        sum+=2
+                    }
+                    else if(e.grade>=60&&e.grade<70){
+                        sum+=1
+                    }
+                    else if(e.grade>=50&&e.grade<60){
+                        sum+=0.5
+                    }
+                    else if(e.grade<=50){
+                        sum+=0
+                    }
+                    else {
+                        sum+=0
+                    }
+                })
+                return (Math.round(((sum)/this.courses.length) * 100)/100).toFixed(2)
             },
-            addCourse: function (title, semester, grade) {
-                let newCourse = new Course(title, semester, grade);
-                this.courses.push(newCourse); // faulty
+            addCourse: function () {
+                this.courses.push(new Course(this.inputTitle, this.inputSemester, this.inputGrade));
+                this.cancel();
             },
             createFields: function (buttonSelected) {
                 this.addButtonSelected = !buttonSelected;
             },
             cancel: function () {
-                this.inputField = '';
+                this.inputTitle = "";
+                this.inputSemester = "";
+                this.inputGrade = "";
                 this.addButtonSelected = false;
             }
         },

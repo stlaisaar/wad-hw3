@@ -7,6 +7,7 @@
             <section id="main">
 
                 <div class="content">
+    
                     <Profile :user="user" :profileSelected="profileSelected"/>
                     <Courses :courses="courses" :coursesSelected="coursesSelected"/>
                 </div>
@@ -49,21 +50,24 @@
                 "Boe",
                 "13/12/1911",
                 "Software Development",
-                "3.0"
+                "5.0"
+                
             );
             return {
+                
                 user,
                 courses: [
                     new Course("Programming", 1, 95),
                     new Course("OOP", 2, 83),
                     new Course("Databases", 2, 89),
-                    new Course("Discrete mathematics", 3, 61)
+                    new Course("Discrete mathematics", 3, 61),
                 ],
                 profileSelected: true,
                 coursesSelected: false
             }
         },
         methods: {
+            
             swapViews: function (id, buttonAlreadySelected) {
                 /* eslint-disable no-console */
                 console.log(id);
@@ -78,6 +82,7 @@
                     this.profileSelected = true;
                 }
             }
+
         },
         components: {
             Profile,
