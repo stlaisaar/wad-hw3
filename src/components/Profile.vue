@@ -12,7 +12,7 @@
                 </ul>
             </div>
             <div id=gpa>
-                <strong>{{user.gpa}}</strong>
+                <strong>{{gpa}}</strong>
             </div>
             <div class="clear-fix"></div>
         </div>
@@ -25,15 +25,6 @@
 
     export default {
         name: "Profile",
-
-        data: () => {
-            return {
-               
-            }
-        },
-        methods: {
-            
-        },
         props: {
             user: User,
             gpa: Object, // should be calculated based on courses

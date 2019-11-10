@@ -8,8 +8,8 @@
 
                 <div class="content">
     
-                    <Profile :user="user" :profileSelected="profileSelected"/>
-                    <Courses :courses="courses" :coursesSelected="coursesSelected"/>
+                    <Profile :user="user" :profileSelected="profileSelected" :gpa="calculateGPA()"/>
+                    <Courses :courses="courses" :coursesSelected="coursesSelected" :user="user"/>
                 </div>
 
                 <div class="controls">
@@ -67,7 +67,33 @@
             }
         },
         methods: {
-            
+            calculateGPA: function () {
+                var sum = 0;
+                this.courses.forEach(e => {
+                    if(e.grade>=90&&e.grade<100){
+                        sum+=4
+                    }
+                    else if(e.grade>=80&&e.grade<90){
+                        sum+=3
+                    }
+                    else if(e.grade>=70&&e.grade<80){
+                        sum+=2
+                    }
+                    else if(e.grade>=60&&e.grade<70){
+                        sum+=1
+                    }
+                    else if(e.grade>=50&&e.grade<60){
+                        sum+=0.5
+                    }
+                    else if(e.grade<=50){
+                        sum+=0
+                    }
+                    else {
+                        sum+=0
+                    }
+                });
+                return (Math.round(((sum)/this.courses.length) * 100)/100)
+            },
             swapViews: function (id, buttonAlreadySelected) {
                 /* eslint-disable no-console */
                 console.log(id);
